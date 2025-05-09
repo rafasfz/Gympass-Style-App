@@ -1,6 +1,7 @@
 import { app } from './app'
+import { env } from './env'
 
-const PORT = 3333
+const PORT = env.PORT
 const HOST = '0.0.0.0'
 
 app.listen({
