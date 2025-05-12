@@ -1,6 +1,7 @@
 import { prisma } from '@/src/lib/prisma'
 import { hash } from 'bcryptjs'
-import { SALT_ROUNDS } from '../settings'
+import { HASHING_SALT_ROUNDS } from '@/src/settings'
+import { UsersRepository } from '@/src/repositories/users-repository'
 
 interface RegisterUseCaseRequest {
   name: string
@@ -8,28 +9,22 @@ interface RegisterUseCaseRequest {
   password: string
 }
 
-export async function registerUseCase({
-  name,
-  email,
-  password,
-}: RegisterUseCaseRequest) {
-  const userAlreadyExists = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  })
+export class RegisterUseCase {
+  constructor(private usersRepository: UsersRepository) {}
 
-  if (userAlreadyExists) {
-    throw new Error('User already exists.')
-  }
+  async execute({ name, email, password }: RegisterUseCaseRequest) {
+    const userAlreadyExists = await this.usersRepository.findByEmail(email)
 
-  const password_hash = await hash(password, SALT_ROUNDS)
+    if (userAlreadyExists) {
+      throw new Error('User already exists.')
+    }
 
-  await prisma.user.create({
-    data: {
+    const password_hash = await hash(password, HASHING_SALT_ROUNDS)
+
+    await this.usersRepository.create({
       name,
       email,
       password_hash,
-    },
-  })
+    })
+  }
 }

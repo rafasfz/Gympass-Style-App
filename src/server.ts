@@ -1,8 +1,5 @@
 import { app } from './app'
-import { env } from './env'
-
-const PORT = env.PORT
-const HOST = '0.0.0.0'
+import { HOST, PORT } from './settings'
 
 app
   .listen({
