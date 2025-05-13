@@ -38,7 +38,7 @@ describe('Authenticate Use Case', async () => {
   })
 
   it('should not be able to authenticate with wrong email', async () => {
-    expect(() => {
+    await expect(() => {
       return sut.execute({
         email: userDataToRegister.email,
         password,
@@ -49,7 +49,7 @@ describe('Authenticate Use Case', async () => {
   it('should not be able to authenticate with wrong password', async () => {
     await usersRepository.create(userDataToRegister)
 
-    expect(() => {
+    await expect(() => {
       return sut.execute({
         email: userDataToRegister.email,
         password: 'wrong-password',
