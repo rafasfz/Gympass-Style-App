@@ -1,10 +1,11 @@
 import { Prisma, CheckIn } from '@/generated/prisma'
 import { CheckInsRepository } from '../check-ins-repository'
+import dayjs from 'dayjs'
 
 export class InMemoryCheckInsRepository implements CheckInsRepository {
   public items: CheckIn[] = []
 
-  create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn> {
+  async create(data: Prisma.CheckInUncheckedCreateInput) {
     const checkIn = {
       id: 'check-in-id',
       user_id: data.user_id,
@@ -16,5 +17,24 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     this.items.push(checkIn)
 
     return Promise.resolve(checkIn)
+  }
+
+  async findByUserIdOnDate(userId: string, date: Date) {
+    const startOfDay = dayjs(date).startOf('date')
+    const endOfDay = dayjs(date).endOf('date')
+
+    const checkInOnSameDate = this.items.find((item) => {
+      const checkInDate = dayjs(item.created_at)
+      const isSameDate =
+        checkInDate.isAfter(startOfDay) && checkInDate.isBefore(endOfDay)
+
+      return item.user_id === userId && isSameDate
+    })
+
+    if (!checkInOnSameDate) {
+      return null
+    }
+
+    return checkInOnSameDate
   }
 }
