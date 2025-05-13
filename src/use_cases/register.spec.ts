@@ -52,7 +52,7 @@ describe('Register Use Case', () => {
 
     await registerUseCase.execute(userData)
 
-    expect(() => {
+    await expect(() => {
       return registerUseCase.execute(userData)
     }).rejects.toThrowError(UserAlereadyExistsError)
   })
