@@ -2,7 +2,7 @@ import { expect, describe, it } from 'vitest'
 import { RegisterUseCase } from './register'
 import { compare } from 'bcryptjs'
 import { InMemoryUsersRepository } from '../repositories/in-memory/in-memory-users-repository'
-import { UserAlereadyExistsError } from './errors/user-already-exists-error'
+import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 
 describe('Register Use Case', () => {
   it('should be able to register', async () => {
@@ -54,6 +54,6 @@ describe('Register Use Case', () => {
 
     await expect(() => {
       return registerUseCase.execute(userData)
-    }).rejects.toThrowError(UserAlereadyExistsError)
+    }).rejects.toThrowError(InvalidCredentialsError)
   })
 })
