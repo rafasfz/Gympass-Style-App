@@ -1,6 +1,7 @@
 import { Prisma, CheckIn } from '@/generated/prisma'
 import { CheckInsRepository } from '../check-ins-repository'
 import dayjs from 'dayjs'
+import { ITEMS_PER_PAGE } from '@/src/settings'
 
 export class InMemoryCheckInsRepository implements CheckInsRepository {
   public items: CheckIn[] = []
@@ -17,6 +18,14 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     this.items.push(checkIn)
 
     return Promise.resolve(checkIn)
+  }
+
+  async findManyByUserId(userId: string, page: number) {
+    const checkIns = this.items
+      .filter((item) => item.user_id === userId)
+      .slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+
+    return checkIns
   }
 
   async findByUserIdOnDate(userId: string, date: Date) {

@@ -17,7 +17,7 @@ describe('Check In Use Case', () => {
     checkInsRepository = new InMemoryCheckInsRepository()
     gymsRepostitory = new InMemoryGymsRepository()
     sut = new CheckInUseCase(checkInsRepository, gymsRepostitory)
-    gymsRepostitory.create({
+    await gymsRepostitory.create({
       id: 'gym-id',
       title: 'Gym',
       description: '',
