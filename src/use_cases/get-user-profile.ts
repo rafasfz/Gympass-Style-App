@@ -19,7 +19,7 @@ export class GetUserProfileUseCase {
     const user = await this.usersRepository.findById(userId)
 
     if (!user) {
-      throw new ResourceNotFoundError()
+      throw new ResourceNotFoundError('User')
     }
 
     return {
