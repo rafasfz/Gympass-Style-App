@@ -15,13 +15,13 @@ describe('Check In Use Case', () => {
     checkInsRepository = new InMemoryCheckInsRepository()
     gymsRepostitory = new InMemoryGymsRepository()
     sut = new CheckInUseCase(checkInsRepository, gymsRepostitory)
-    gymsRepostitory.items.push({
+    gymsRepostitory.create({
       id: 'gym-id',
       title: 'Gym',
       description: '',
       phone: '',
-      latitude: new Decimal(latitude),
-      longitude: new Decimal(longitude),
+      latitude,
+      longitude,
     })
 
     vi.useFakeTimers()
