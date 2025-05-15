@@ -11,3 +11,5 @@ export const PORT = env.PORT
 export const HOST = '0.0.0.0'
 
 export const HASHING_SALT_ROUNDS = 6
+
+export const SECRET_KEY = env.SECRET_KEY
