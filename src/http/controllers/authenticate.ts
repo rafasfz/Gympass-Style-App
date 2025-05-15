@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { InvalidCredentialsError } from '@/src/use_cases/errors/invalid-credentials-error'
 import { makeAuthenticateUseCase } from '@/src/use_cases/factories/make-authenticate-use-case'
+import { GlobalHttpError } from '@/src/errors'
 
 export async function authenticate(
   request: FastifyRequest,
@@ -33,7 +33,7 @@ export async function authenticate(
 
     return reply.status(200).send({ token })
   } catch (err) {
-    if (err instanceof InvalidCredentialsError) {
+    if (err instanceof GlobalHttpError) {
       return reply.status(err.statusCode).send({
         message: err.message,
       })

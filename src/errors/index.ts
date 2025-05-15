@@ -1,3 +1,3 @@
-export interface GlobalHttpError {
-  statusCode: number
+export abstract class GlobalHttpError extends Error {
+  statusCode!: number
 }
