@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { makeRegisterUseCase } from '@/src/use_cases/factories/make-register-use-case'
+import { makeRegisterUseCase } from '@/src/use-cases/factories/make-register-use-case'
 import { GlobalHttpError } from '@/src/errors'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {

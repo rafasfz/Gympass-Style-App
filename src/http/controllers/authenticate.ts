@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { makeAuthenticateUseCase } from '@/src/use_cases/factories/make-authenticate-use-case'
+import { makeAuthenticateUseCase } from '@/src/use-cases/factories/make-authenticate-use-case'
 import { GlobalHttpError } from '@/src/errors'
 
 export async function authenticate(
