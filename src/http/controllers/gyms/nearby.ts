@@ -1,15 +1,15 @@
 import { z } from 'zod'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { makeFetchNearbyGymsUseCase } from '@/src/use-cases/factories/make-fetch-nearby-gyms-use-case'
+import {
+  validateLongitude,
+  valiteLatitude,
+} from '@/src/utils/validations/coordinates'
 
 export async function nearby(request: FastifyRequest, reply: FastifyReply) {
   const searchGymsQuerySechma = z.object({
-    latitude: z.number().refine((value) => {
-      return Math.abs(value) <= 90
-    }),
-    longitude: z.number().refine((value) => {
-      return Math.abs(value) <= 180
-    }),
+    latitude: z.number().refine(valiteLatitude),
+    longitude: z.number().refine(validateLongitude),
   })
 
   const { latitude, longitude } = searchGymsQuerySechma.parse(request.query)
