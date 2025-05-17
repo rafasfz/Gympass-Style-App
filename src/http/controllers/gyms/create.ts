@@ -9,8 +9,8 @@ import {
 export async function create(request: FastifyRequest, reply: FastifyReply) {
   const createGymBodySchema = z.object({
     title: z.string().min(3).trim(),
-    description: z.string().nullable(),
-    phone: z.string().nullable(),
+    description: z.string().nullable().optional(),
+    phone: z.string().nullable().optional(),
     latitude: z.number().refine(valiteLatitude),
     longitude: z.number().refine(validateLongitude),
   })
@@ -20,13 +20,13 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
   const createGymUseCase = makeCreateGymUseCase()
 
-  await createGymUseCase.execute({
+  const { gym } = await createGymUseCase.execute({
     title,
-    description,
+    description: description ?? null,
     latitude,
     longitude,
-    phone,
+    phone: phone ?? null,
   })
 
-  return reply.status(201).send()
+  return reply.status(201).send({ gym })
 }

@@ -13,11 +13,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
   const registerUseCase = makeRegisterUseCase()
 
-  await registerUseCase.execute({
+  const { user } = await registerUseCase.execute({
     name,
     email,
     password,
   })
 
-  return reply.status(201).send()
+  return reply.status(201).send({ user })
 }
