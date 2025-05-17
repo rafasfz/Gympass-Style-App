@@ -10,9 +10,9 @@ export async function search(request: FastifyRequest, reply: FastifyReply) {
 
   const { query, page } = searchGymsQuerySechma.parse(request.query)
 
-  const createGymUseCase = makeSearchGymsUseCase()
+  const searchGymsUseCase = makeSearchGymsUseCase()
 
-  const { gyms } = await createGymUseCase.execute({
+  const { gyms } = await searchGymsUseCase.execute({
     query,
     page,
   })

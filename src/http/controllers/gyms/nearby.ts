@@ -8,8 +8,8 @@ import {
 
 export async function nearby(request: FastifyRequest, reply: FastifyReply) {
   const searchGymsQuerySechma = z.object({
-    latitude: z.number().refine(valiteLatitude),
-    longitude: z.number().refine(validateLongitude),
+    latitude: z.coerce.number().refine(valiteLatitude),
+    longitude: z.coerce.number().refine(validateLongitude),
   })
 
   const { latitude, longitude } = searchGymsQuerySechma.parse(request.query)

@@ -1,12 +1,12 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { makeGetUserMetricsUseCase } from '@/src/use-cases/factories/make-get-user-metrics-use-case'
 
-export async function history(request: FastifyRequest, reply: FastifyReply) {
+export async function metrics(request: FastifyRequest, reply: FastifyReply) {
   const userId = request.user.sub
 
-  const searchGymsUseCase = makeGetUserMetricsUseCase()
+  const getUserMetricsUseCase = makeGetUserMetricsUseCase()
 
-  const { checkInsCount } = await searchGymsUseCase.execute({
+  const { checkInsCount } = await getUserMetricsUseCase.execute({
     userId,
   })
 
