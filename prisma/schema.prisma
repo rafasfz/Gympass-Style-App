@@ -14,13 +14,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  MEMBER
+}
+
 model User {
-  id            String    @id @default(cuid())
+  id            String   @id @default(cuid())
   name          String
-  email         String    @unique
+  email         String   @unique
   password_hash String
-  created_at    DateTime  @default(now())
-  CheckIns      CheckIn[]
+  created_at    DateTime @default(now())
+  role          Role     @default(MEMBER)
+
+  CheckIns CheckIn[]
 
   @@map(name: "users")
 }

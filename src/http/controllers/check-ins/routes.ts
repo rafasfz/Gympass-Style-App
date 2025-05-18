@@ -4,12 +4,19 @@ import { create } from './create'
 import { validate } from './validate'
 import { history } from './history'
 import { metrics } from './metrics'
+import { onlyAdmin } from '../../middlewares/only-admin'
+
+async function onlyAdminRoutes(app: FastifyInstance) {
+  app.addHook('onRequest', verifyJwt)
+  app.addHook('onRequest', onlyAdmin)
+  app.patch('/check-ins/:checkInId/validate', validate)
+}
 
 export async function checkInsRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJwt)
+  app.register(onlyAdminRoutes)
 
   app.post('/gyms/:gymId/check-ins', create)
-  app.patch('/check-ins/:checkInId/validate', validate)
   app.get('/check-ins/history', history)
   app.get('/check-ins/metrics', metrics)
 }
