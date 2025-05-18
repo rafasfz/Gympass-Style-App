@@ -30,4 +30,4 @@ jobs:
       - run: npm run test:e2e
         env:
           SECRET_KEY: ANY-SECRET
-          DATABASE_URL: "postgresql://docker:docker@postgres:5432/gympassstyle?schema=public"
+          DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
