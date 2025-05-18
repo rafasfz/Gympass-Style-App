@@ -1,8 +1,9 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { app } from '@/src/app'
+import { createAndAuthenticateUser } from '@/src/utils/test/create-and-authenticate-user'
 
-describe('Authenticate (e2e)', () => {
+describe('Refresh Token (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -11,21 +12,13 @@ describe('Authenticate (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to authenticate', async () => {
-    const user = {
-      name: 'John Lennon',
-      email: 'johnlennon@example.com',
-      password: '123123',
-    }
+  it('should be able to refresh a token', async () => {
+    const { cookies } = await createAndAuthenticateUser(app)
 
-    await request(app.server)
-      .post('/users')
-      .send({ ...user })
-
-    const response = await request(app.server).post('/sessions').send({
-      email: user.email,
-      password: user.password,
-    })
+    const response = await request(app.server)
+      .patch('/token/refresh')
+      .set('Cookie', cookies)
+      .send()
 
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual({

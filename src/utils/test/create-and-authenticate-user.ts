@@ -20,9 +20,11 @@ export async function createAndAuthenticateUser(app: FastifyInstance) {
   })
 
   const { token } = authResponse.body
+  const cookies = authResponse.get('Set-Cookie') as string[]
 
   return {
     token,
     user,
+    cookies,
   }
 }
